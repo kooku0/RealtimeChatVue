@@ -4,9 +4,9 @@
         <!-- chat area -->
           <div 
             v-for="(item, index) in messages"
-            v-bind:class="{'me': item.name === 'me', 'connect': item.type === 'connect', 'disconnect': item.type === 'disconnect', 'other': item.name !== 'me' && item.type === 'message'}"
+            v-bind:class="chatClassName(item)"
             :key="index">
-            {{item.name + ": " + item.message}}
+            {{messageFunc(item)}}
           </div>
       </div>
       <div>
@@ -27,18 +27,6 @@ import io from 'socket.io-client';
 
 export default {
   name: 'HelloWorld',
-  computed: {
-    chatClassName: (item) => {
-      if (item.type === 'message') return 'other'
-      else if (item.type === 'connect') return 'connect'
-      else if (item.type === 'disconnect') return 'disconnect'
-      else return 'me'
-    },
-    messageFunc: function(item) {
-      if (item.type === 'message' && item.name !== 'me') return item.name + ": "+item.message
-      else return item.message
-    }
-  },
   data() {
     return {
       message: '',
@@ -47,12 +35,22 @@ export default {
     }
   },
   methods: {
-    handlePress (e) {
+    chatClassName: (item) => {
+      if (item.name === 'me') return 'me'
+      else if (item.type === 'connect') return 'connect'
+      else if (item.type === 'disconnect') return 'disconnect'
+      else return 'other'
+    },
+    messageFunc: (item) => {
+      if (item.type === 'message' && item.name !== 'me') return item.name + ": "+item.message
+      else return item.message
+    },
+    handlePress: (e) => {
       if (e.key === 'Enter') {
         this.sendMessage()
       }
     },
-    sendMessage () {
+    sendMessage: () => {
       this.messages = [...this.messages, {type: 'message', name: 'me', message: this.message}]
       this.socket.emit('message', {
         type: 'message',
