@@ -1,0 +1,62 @@
+/* main */
+#main {
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 20px;
+    background-color: lightblue;
+    text-align: center;
+    width: 500px;
+    height: 800px;
+  }
+  
+  #chat {
+    height: 90%;
+    width: 100%;
+    overflow-y: auto;
+  }
+  
+  .connect {
+    width: 90%;
+    margin: 0 5% 0 5%;
+    background-color: aquamarine;
+    text-align: center;
+    margin-top: 10px;
+    float: right;
+  }
+  
+  .disconnect {
+    width: 90%;
+    margin: 0 5% 0 5%;
+    background-color: indianred;
+    text-align: center;
+    margin-top: 10px;
+    float: right;
+  }
+  
+  .me {
+    max-width: 200px;
+    width: auto;
+    margin: auto;
+    background-color: lemonchiffon;
+    padding: 0 10px 0 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 5%;
+    text-align: left;
+    float: right;
+    clear: both;
+  }
+  
+  .other {
+    max-width: 200px;
+    width: auto;
+    margin: auto;
+    background-color: white;
+    padding: 0 10px 0 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 5%;
+    text-align: left;
+    float: left;
+    clear: both;
+  }
