@@ -4,9 +4,9 @@
         <!-- chat area -->
           <div 
             v-for="(item, index) in messages"
-            v-bind:class="item.name"
+            v-bind:class="{'me': item.name === 'me', 'connect': item.type === 'connect', 'disconnect': item.type === 'disconnect', 'other': item.name !== 'me' && item.type === 'message'}"
             :key="index">
-            {{item.message}}
+            {{item.name + ": " + item.message}}
           </div>
       </div>
       <div>
@@ -27,10 +27,22 @@ import io from 'socket.io-client';
 
 export default {
   name: 'HelloWorld',
+  computed: {
+    chatClassName: (item) => {
+      if (item.type === 'message') return 'other'
+      else if (item.type === 'connect') return 'connect'
+      else if (item.type === 'disconnect') return 'disconnect'
+      else return 'me'
+    },
+    messageFunc: function(item) {
+      if (item.type === 'message' && item.name !== 'me') return item.name + ": "+item.message
+      else return item.message
+    }
+  },
   data() {
     return {
       message: '',
-      messages: [{type: "message", name: "me", message: "hello" }, {type: "message", name: "other", message: "1: hello" }],
+      messages: [],
       socket : io('localhost:3001')
     }
   },
@@ -41,18 +53,18 @@ export default {
       }
     },
     sendMessage () {
+      this.messages = [...this.messages, {type: 'message', name: 'me', message: this.message}]
       this.socket.emit('message', {
         type: 'message',
         message: this.message
       })
-      console.log(this.message)
       this.message = ''
     }
   },
   mounted() {
     this.socket.emit('newUser')
     this.socket.on('update', (data) => {
-        console.log('update')
+        console.log(data)
         let message = {...data}
         this.messages = [...this.messages, data]
       }

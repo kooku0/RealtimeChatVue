@@ -22,14 +22,12 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('message', (data) => {
         data.name = socket.name
-        // socket.broadcast.emit('update', data);
-        io.sockets.emit('update', data);
+        socket.broadcast.emit('update', data);
     })
 
     socket.on('disconnect', () => {
         console.log(socket.name + 'disconnection')
-        // socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + ' disconnection'})
-        io.sockets.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + ' disconnection'})
+        socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + ' disconnection'})
     })
 })
 
